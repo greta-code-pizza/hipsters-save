@@ -1,3 +1,5 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/9d0328e288fcf5afb83e/maintainability)](https://codeclimate.com/github/greta-code-pizza/lobsters/maintainability)
+
 ### Lobsters Rails Project [![Build Status](https://travis-ci.org/lobsters/lobsters.svg?branch=master)](https://travis-ci.org/lobsters/lobsters)
 
 This is the
@@ -117,6 +119,3 @@ running tests:
 
 Basic moderation happens on-site, but most other administrative tasks require use of the rails console in production.
 Administrators can create and edit tags at `/tags`.
-
-
-### Test pull request v1.1
