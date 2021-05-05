@@ -220,6 +220,7 @@ Rails.application.routes.draw do
 
   #api test -------------------
 get "/api/stories/tag/:tag" => "api/tags#find_stories_by_tags"
+get "/api/stories" => "api/stories_api#find_all_stories"
 
 
 end
