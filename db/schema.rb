@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2021_05_03_141034) do
     t.integer "vote", default: 0
   end
 
-  create_table "adverts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8", force: :cascade do |t|
+  create_table "adverts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -135,7 +135,7 @@ ActiveRecord::Schema.define(version: 2021_05_03_141034) do
   end
 
 
-  create_table "messages", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8", force: :cascade do |t|
+  create_table "messages", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "created_at"
     t.bigint "author_user_id", null: false, unsigned: true
     t.bigint "recipient_user_id", null: false, unsigned: true
