@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_03_141034) do
+ActiveRecord::Schema.define(version: 2021_05_05_093016) do
 
   create_table "advertisements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2021_05_03_141034) do
     t.integer "vote", default: 0
   end
 
-  create_table "adverts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "adverts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -31,7 +31,6 @@ ActiveRecord::Schema.define(version: 2021_05_03_141034) do
     t.datetime "updated_at", null: false
     t.index ["category"], name: "index_categories_on_category", unique: true
   end
-
 
   create_table "comments", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -60,7 +59,6 @@ ActiveRecord::Schema.define(version: 2021_05_03_141034) do
     t.index ["thread_id"], name: "thread_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
-
 
   create_table "domains", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "domain"
@@ -102,7 +100,6 @@ ActiveRecord::Schema.define(version: 2021_05_03_141034) do
     t.index ["user_id", "story_id"], name: "index_hidden_stories_on_user_id_and_story_id", unique: true
   end
 
-
   create_table "invitation_requests", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "code"
     t.boolean "is_verified", default: false
@@ -113,7 +110,6 @@ ActiveRecord::Schema.define(version: 2021_05_03_141034) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
 
   create_table "invitations", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "user_id", null: false, unsigned: true
@@ -134,8 +130,7 @@ ActiveRecord::Schema.define(version: 2021_05_03_141034) do
     t.index ["key"], name: "key", unique: true
   end
 
-
-  create_table "messages", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "messages", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "created_at"
     t.bigint "author_user_id", null: false, unsigned: true
     t.bigint "recipient_user_id", null: false, unsigned: true
@@ -151,7 +146,6 @@ ActiveRecord::Schema.define(version: 2021_05_03_141034) do
     t.index ["short_id"], name: "random_hash", unique: true
   end
 
-
   create_table "mod_notes", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "moderator_user_id", null: false, unsigned: true
     t.bigint "user_id", null: false, unsigned: true
@@ -162,7 +156,6 @@ ActiveRecord::Schema.define(version: 2021_05_03_141034) do
     t.index ["moderator_user_id"], name: "mod_notes_moderator_user_id_fk"
     t.index ["user_id"], name: "mod_notes_user_id_fk"
   end
-
 
   create_table "moderations", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -184,7 +177,7 @@ ActiveRecord::Schema.define(version: 2021_05_03_141034) do
     t.index ["tag_id"], name: "moderations_tag_id_fk"
     t.index ["user_id"], name: "index_moderations_on_user_id"
   end
-  
+
   create_table "read_ribbons", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.boolean "is_following", default: true
     t.datetime "created_at", null: false
@@ -237,7 +230,6 @@ ActiveRecord::Schema.define(version: 2021_05_03_141034) do
     t.index ["url"], name: "url", length: 191
     t.index ["user_id"], name: "index_stories_on_user_id"
   end
-
 
   create_table "story_texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.text "body", size: :medium, null: false
@@ -383,8 +375,6 @@ ActiveRecord::Schema.define(version: 2021_05_03_141034) do
   add_foreign_key "votes", "users", name: "votes_user_id_fk"
 
   create_view "replying_comments", sql_definition: <<-SQL
-
-      select `read_ribbons`.`user_id` AS `user_id`,`comments`.`id` AS `comment_id`,`read_ribbons`.`story_id` AS `story_id`,`comments`.`parent_comment_id` AS `parent_comment_id`,`comments`.`created_at` AS `comment_created_at`,`parent_comments`.`user_id` AS `parent_comment_author_id`,`comments`.`user_id` AS `comment_author_id`,`stories`.`user_id` AS `story_author_id`,(`read_ribbons`.`updated_at` < `comments`.`created_at`) AS `is_unread`,(select `votes`.`vote` from `votes` where ((`votes`.`user_id` = `read_ribbons`.`user_id`) and (`votes`.`comment_id` = `comments`.`id`))) AS `current_vote_vote`,(select `votes`.`reason` from `votes` where ((`votes`.`user_id` = `read_ribbons`.`user_id`) and (`votes`.`comment_id` = `comments`.`id`))) AS `current_vote_reason` from (((`read_ribbons` join `comments` on((`comments`.`story_id` = `read_ribbons`.`story_id`))) join `stories` on((`stories`.`id` = `comments`.`story_id`))) left join `comments` `parent_comments` on((`parent_comments`.`id` = `comments`.`parent_comment_id`))) where ((`read_ribbons`.`is_following` = 1) and (`comments`.`user_id` <> `read_ribbons`.`user_id`) and (`comments`.`is_deleted` = 0) and (`comments`.`is_moderated` = 0) and ((`parent_comments`.`user_id` = `read_ribbons`.`user_id`) or (isnull(`parent_comments`.`user_id`) and (`stories`.`user_id` = `read_ribbons`.`user_id`))) and (`stories`.`score` >= 0) and (`comments`.`score` >= 0) and (isnull(`parent_comments`.`id`) or ((`parent_comments`.`score` >= 0) and (`parent_comments`.`is_moderated` = 0) and (`parent_comments`.`is_deleted` = 0))) and (not(exists(select 1 from (`votes` `f` join `comments` `c` on((`f`.`comment_id` = `c`.`id`))) where ((`f`.`vote` < 0) and (`f`.`user_id` = `parent_comments`.`user_id`) and (`c`.`user_id` = `comments`.`user_id`) and (`f`.`story_id` = `comments`.`story_id`))))))
-
+      select `read_ribbons`.`user_id` AS `user_id`,`comments`.`id` AS `comment_id`,`read_ribbons`.`story_id` AS `story_id`,`comments`.`parent_comment_id` AS `parent_comment_id`,`comments`.`created_at` AS `comment_created_at`,`parent_comments`.`user_id` AS `parent_comment_author_id`,`comments`.`user_id` AS `comment_author_id`,`stories`.`user_id` AS `story_author_id`,(`read_ribbons`.`updated_at` < `comments`.`created_at`) AS `is_unread`,(select `votes`.`vote` from `votes` where ((`votes`.`user_id` = `read_ribbons`.`user_id`) and (`votes`.`comment_id` = `comments`.`id`))) AS `current_vote_vote`,(select `votes`.`reason` from `votes` where ((`votes`.`user_id` = `read_ribbons`.`user_id`) and (`votes`.`comment_id` = `comments`.`id`))) AS `current_vote_reason` from (((`read_ribbons` join `comments` on((`comments`.`story_id` = `read_ribbons`.`story_id`))) join `stories` on((`stories`.`id` = `comments`.`story_id`))) left join `comments` `parent_comments` on((`parent_comments`.`id` = `comments`.`parent_comment_id`))) where ((`read_ribbons`.`is_following` = 1) and (`comments`.`user_id` <> `read_ribbons`.`user_id`) and (`comments`.`is_deleted` = 0) and (`comments`.`is_moderated` = 0) and ((`parent_comments`.`user_id` = `read_ribbons`.`user_id`) or ((`parent_comments`.`user_id` is null) and (`stories`.`user_id` = `read_ribbons`.`user_id`))) and (`stories`.`score` >= 0) and (`comments`.`score` >= 0) and ((`parent_comments`.`id` is null) or ((`parent_comments`.`score` >= 0) and (`parent_comments`.`is_moderated` = 0) and (`parent_comments`.`is_deleted` = 0))) and exists(select 1 from (`votes` `f` join `comments` `c` on((`f`.`comment_id` = `c`.`id`))) where ((`f`.`vote` < 0) and (`f`.`user_id` = `parent_comments`.`user_id`) and (`c`.`user_id` = `comments`.`user_id`) and (`f`.`story_id` = `comments`.`story_id`))) is false)
   SQL
 end
