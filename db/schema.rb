@@ -186,7 +186,8 @@ ActiveRecord::Schema.define(version: 2021_05_03_141034) do
     t.index ["story_id"], name: "moderations_story_id_fk"
     t.index ["tag_id"], name: "moderations_tag_id_fk"
     t.index ["user_id"], name: "index_moderations_on_user_id"
-
+  end
+  
   create_table "read_ribbons", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.boolean "is_following", default: true
     t.datetime "created_at", null: false
