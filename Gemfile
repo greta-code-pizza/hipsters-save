@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "~> 6.0.3.3"
+gem "rails", "~> 6.0.3.7"
 
 gem "mysql2"
 
@@ -8,21 +8,21 @@ gem "mysql2"
 # gem "pg"
 
 # rails
-gem 'scenic'
-gem 'scenic-mysql_adapter'
+gem 'scenic', '>= 1.5.4'
+gem 'scenic-mysql_adapter', '>= 1.0.1'
 gem "activerecord-typedstore"
 gem 'sprockets-rails', '2.3.3'
 
-gem 'dotenv-rails', groups: [:development, :staging, :test]
+gem 'dotenv-rails', '>= 2.7.6', groups: [:development, :staging, :test]
 
 # js
-gem "jquery-rails", "~> 4.3"
+gem "jquery-rails", "~> 4.4", ">= 4.4.0"
 gem "json"
 gem "uglifier", ">= 1.3.0"
 
 # deployment
-gem "actionpack-page_caching"
-gem "exception_notification"
+gem "actionpack-page_caching", ">= 1.2.3"
+gem "exception_notification", ">= 4.4.3"
 gem "puma", ">= 5.3.1"
 
 # security
@@ -46,10 +46,10 @@ gem 'transaction_retry' # mitigate https://github.com/lobsters/lobsters-ansible/
 group :test, :development, :staging do
   gem 'capybara'
   gem 'database_cleaner'
-  gem 'good_migrations'
+  gem 'good_migrations', '>= 0.0.2'
   gem "listen"
-  gem "rspec-rails"
-  gem "factory_bot_rails"
+  gem "rspec-rails", ">= 5.0.1"
+  gem "factory_bot_rails", ">= 6.1.0"
   gem "rubocop", "0.81", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
