@@ -23,7 +23,7 @@ gem "uglifier", ">= 1.3.0"
 # deployment
 gem "actionpack-page_caching", ">= 1.2.3"
 gem "exception_notification", ">= 4.4.3"
-gem "puma"
+gem "puma", ">= 5.3.1"
 
 # security
 gem "bcrypt", "~> 3.1.2"
@@ -35,12 +35,6 @@ gem "pdf-reader"
 gem "nokogiri", ">= 1.11.0.rc4"
 gem "htmlentities"
 gem "commonmarker", "~> 0.14"
-
-# perf
-gem 'flamegraph'
-gem 'memory_profiler'
-gem 'rack-mini-profiler'
-gem 'stackprof'
 
 gem "oauth" # for twitter-posting bot
 gem "mail" # for parsing incoming mail
@@ -65,4 +59,11 @@ group :test, :development, :staging do
   gem "vcr"
   gem "webmock" # used to support vcr
   gem 'simplecov', require: false
+  gem 'pry-rails'
+
+  # perf
+  gem 'flamegraph'
+  gem 'memory_profiler'
+  gem 'rack-mini-profiler'
+  gem 'stackprof'
 end
